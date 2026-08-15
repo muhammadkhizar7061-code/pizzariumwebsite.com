@@ -12,13 +12,16 @@ function render(category) {
 }
 render('pizza');
 document.querySelectorAll('.menu-tabs button').forEach(button => button.addEventListener('click', () => { document.querySelector('.menu-tabs .active').classList.remove('active'); button.classList.add('active'); render(button.dataset.category); }));
-const modal = document.querySelector('#productModal'), modalTitle = document.querySelector('#modalTitle'), modalPrices = document.querySelector('#modalPrices'), modalOrder = document.querySelector('#modalOrder');
+const modal = document.querySelector('#productModal'), modalTitle = document.querySelector('#modalTitle'), modalPrices = document.querySelector('#modalPrices'), modalOrder = document.querySelector('#modalOrder'), modalQty = document.querySelector('#modalQty');
 let selectedItem = null;
 grid.addEventListener('click', event => { const card = event.target.closest('.menu-card'); if (!card) return; const category = document.querySelector('.menu-tabs .active').dataset.category; selectedItem = menu[category][Number(card.querySelector('.card-number').textContent) - 1]; modalTitle.textContent = selectedItem[0]; modalPrices.innerHTML = selectedItem[1].map(price => `<span>${price}</span>`).join(''); modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.classList.add('modal-open'); });
 function closeModal() { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.classList.remove('modal-open'); }
 document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', closeModal));
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
-modalOrder.addEventListener('click', () => { if (!selectedItem) return; const message = `Hello Pizzarium! I would like to order: ${selectedItem[0]}. Available prices: ${selectedItem[1].join(', ')}. Please confirm my order.`; window.open(`https://wa.me/923071001114?text=${encodeURIComponent(message)}`, '_blank', 'noopener'); });
+function getCart() { return JSON.parse(localStorage.getItem('pizzarium-cart') || '[]'); }
+function updateCartCount() { document.querySelectorAll('.cart-count').forEach(count => count.textContent = getCart().reduce((total, item) => total + item.qty, 0)); }
+modalOrder.addEventListener('click', () => { if (!selectedItem) return; const price = selectedItem[1][0]; const cart = getCart(); const existing = cart.find(item => item.name === selectedItem[0] && item.price === price); if (existing) existing.qty += Number(modalQty.value); else cart.push({ name: selectedItem[0], price, qty: Number(modalQty.value) }); localStorage.setItem('pizzarium-cart', JSON.stringify(cart)); updateCartCount(); modalOrder.innerHTML = 'Added to cart <span>✓</span>'; setTimeout(() => { modalOrder.innerHTML = 'Add to cart <span>+</span>'; closeModal(); }, 700); });
+updateCartCount();
 const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }), { threshold: .15 });
 document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
 document.querySelector('.menu-toggle').addEventListener('click', () => document.querySelector('.nav').classList.toggle('mobile-open'));

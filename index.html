@@ -19,7 +19,7 @@
       <nav class="nav" aria-label="Main navigation">
         <a href="#menu">Menu</a><a href="#story">Our story</a><a href="#visit">Visit us</a>
       </nav>
-      <a class="order-link" href="#menu">Order now <span>↗</span></a>
+      <a class="order-link" href="cart.html">Cart <span class="cart-count">0</span></a>
       <button class="menu-toggle" aria-label="Open navigation">☰</button>
     </header>
 
@@ -67,8 +67,8 @@
         <h2 id="modalTitle">Pizzarium Special</h2>
         <p class="modal-description">Freshly prepared with generous toppings and Pizzarium’s signature flavour.</p>
         <div class="modal-prices" id="modalPrices"></div>
-        <button class="button modal-order" id="modalOrder" type="button">Order on WhatsApp <span>↗</span></button>
-        <p class="modal-footnote">A Pizzarium team member will confirm your order and delivery details.</p>
+        <div class="modal-actions"><label>Quantity <select id="modalQty" aria-label="Item quantity"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label><button class="button modal-order" id="modalOrder" type="button">Add to cart <span>+</span></button></div>
+        <p class="modal-footnote">Choose delivery or pickup at checkout. Your order will be confirmed by Pizzarium.</p>
       </div>
     </div>
     <script src="script.js"></script>
