@@ -1,3 +1,5 @@
+const navigation = performance.getEntriesByType('navigation')[0];
+if (navigation && navigation.type === 'reload') localStorage.removeItem('pizzarium-cart');
 const menu = {
   pizza: [
     ['Pizzarium Special', ['R 620', 'M 1080', 'L 1480']], ['Chicago Delight', ['R 620', 'M 1080', 'L 1480']], ['Chicken Supreme', ['R 620', 'M 1080', 'L 1480']], ['Chicken Fajita', ['R 620', 'M 1080', 'L 1480']], ['Chicken Tikka', ['R 620', 'M 1080', 'L 1480']], ['Chicken Mughalai', ['R 620', 'M 1080', 'L 1480']], ['Chicken Euro', ['R 620', 'M 1080', 'L 1480']], ['Cheese Lover', ['R 620', 'M 1080', 'L 1480']], ['Behari Chicken', ['M 1150', 'L 1600']], ['Royal Crust', ['M 1150', 'L 1600']], ['Malai Raja', ['R 620', 'M 1120', 'L 1600']], ['Peri Peri', ['R 620', 'M 1120', 'L 1600']], ['Cheese Stuffer', ['M 1250', 'L 1750']], ['Kabab Stuffer', ['M 1300', 'L 1800']]

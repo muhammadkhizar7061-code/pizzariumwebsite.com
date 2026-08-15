@@ -1,4 +1,6 @@
 const cartKey = 'pizzarium-cart';
+const navigation = performance.getEntriesByType('navigation')[0];
+if (navigation && navigation.type === 'reload') localStorage.removeItem(cartKey);
 const itemsEl = document.querySelector('#cartItems');
 const emptyEl = document.querySelector('#emptyCart');
 const subtotalEl = document.querySelector('#subtotal');
