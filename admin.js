@@ -2,8 +2,8 @@ const adminSession = PizzariumAuth.getSession();
 const adminOrders = [];
 let activeFilter = 'all';
 const statusNames = { new: 'New', confirmed: 'Confirmed', preparing: 'Preparing', out_for_delivery: 'Out for delivery', completed: 'Completed', cancelled: 'Cancelled' };
-if (!adminSession?.access_token) location.href = 'sign-in.html?next=admin.html';
-else { document.querySelector('#staffName').textContent = adminSession.user.user_metadata?.full_name || adminSession.user.email; loadOrders(); }
+async function enforceAdminAccess() { if (!adminSession?.access_token) { location.replace('sign-in.html'); return; } const role = await PizzariumAuth.getUserRole(adminSession); if (!['admin', 'staff'].includes(role)) { alert('This page is only available to Pizzarium staff.'); location.replace('index.html'); return; } document.querySelector('#staffName').textContent = adminSession.user.user_metadata?.full_name || adminSession.user.email; loadOrders(); }
+enforceAdminAccess();
 
 function headers() { return { apikey: PizzariumAuth.key, Authorization: `Bearer ${adminSession.access_token}`, 'Content-Type': 'application/json' }; }
 function rupees(value) { return `PKR ${Number(value || 0).toLocaleString()}`; }
